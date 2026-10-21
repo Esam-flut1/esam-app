@@ -1,0 +1,1414 @@
+<!DOCTYPE html><html dir="rtl" lang="ar" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>وظائف إب - تطبيق ومنصة التوظيف وسوق العمل المتكامل</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0a192f',
+              blue: '#1e3a8a',
+              emerald: '#059669',
+              lightgreen: '#10b981',
+              gold: '#f59e0b',
+              surface: '#f8f9ff',
+              card: '#ffffff'
+            }
+          },
+          fontFamily: {
+            tajawal: ['Tajawal', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Tajawal', sans-serif;
+    }
+    body {
+      background-color: #050d1a;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .active-nav {
+      color: #1e3a8a !important;
+      font-weight: 700;
+    }
+    .active-nav i {
+      transform: translateY(-2px);
+      color: #1e3a8a !important;
+    }
+    /* Shimmer effect for skeleton */
+    @keyframes shimmerAnim {
+      0% { transform: translateX(150%); }
+      100% { transform: translateX(-150%); }
+    }
+    .shimmer-active {
+      position: relative;
+      overflow: hidden;
+    }
+    .shimmer-active::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+      animation: shimmerAnim 1.4s infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.4); }
+      50% { box-shadow: 0 0 45px rgba(16, 185, 129, 0.85); }
+    }
+    .logo-glow {
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start bg-slate-950 sm:py-4">
+<!-- Main Mobile App Shell Container -->
+<div class="w-full max-w-md min-h-screen bg-slate-50 relative flex flex-col shadow-2xl overflow-hidden sm:rounded-[2.5rem] border border-slate-800" id="mobile-app-root">
+<!-- 1. SPLASH / LAUNCH SCREEN OVERLAY -->
+<div class="absolute inset-0 z-[100] bg-gradient-to-b from-[#061224] via-[#0a192f] to-[#040914] flex flex-col items-center justify-between p-8 text-white text-center transition-all duration-700 ease-in-out cursor-pointer opacity-0 pointer-events-none" id="splash-screen" onclick="dismissSplash()" style="display: none;">
+<!-- Background subtle glow & panorama blend -->
+<div class="absolute inset-0 opacity-15 mix-blend-overlay pointer-events-none">
+<img alt="إب الخضراء" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UyW1HK09bojB_2EbSzqYzj3uFMaSMCU_ecw9gnXLkv57po6cLEY4PuhpDC-FxpJGCSeC3DTMIW-8L54i3v8j3Y86DUiati_kuVrsB7hfmHBp9tGIFN6kVkWXyJfhrUJXoPXJPpgQUXVjcn46gOSOxSxFHT9qeA9WNXa4dnkcNz0eM_XGCntv5aYmC6pX00K4sBrFVTi_r0XH6kbXQCrmme46SFt7-CZVhvmjTDx0aILTl8VGI3ODtOSFc">
+</div>
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Top Skip button -->
+<div class="w-full flex justify-between items-center z-10 pt-4">
+<span class="text-[11px] bg-white/10 px-2.5 py-1 rounded-full text-emerald-300 font-semibold tracking-wide border border-white/10">اللواء الأخضر 🌿</span>
+<button class="text-xs text-slate-300 bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full flex items-center gap-1 transition-colors" onclick="event.stopPropagation(); dismissSplash()">
+<span class="">تخطي</span>
+<i class="fa-solid fa-arrow-left text-[10px]"></i>
+</button>
+</div>
+<!-- Center Logo & Branding -->
+<div class="flex flex-col items-center z-10 my-auto space-y-5">
+<div class="relative">
+<div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl p-1 bg-gradient-to-tr from-emerald-400 via-teal-300 to-blue-600 logo-glow flex items-center justify-center shadow-2xl overflow-hidden">
+<img alt="شعار وظائف إب" class="w-full h-full object-cover rounded-[22px]" src="https://lh3.googleusercontent.com/aida/AEtjO1UlYJbhpfZRAo8JESo4a2svS9E9-5TmQON2fHso8E3ehgOy3L5uuHdLQcgsWSLmwBXBt23CTnSzvHOoMPQ_OigFyoTbMxaKIEZqU1zT7Vl6dsJpFm-rZH2e_xZ23U2I5DkwlilyXPzFOM-A4gFzBy7RX9G_I_aumCADLaHAuPCjU1DRcNS7ZnM7FVjYwtHZB8zy_ILJGCF3h8G7hPN56h_zfAKq26eH-6OGFyaZvibLJdm3Fazcr5QExk81">
+</div>
+<span class="absolute -bottom-2 bg-emerald-500 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-lg border border-emerald-300">
+            المنصة الرسمية الأولى
+          </span>
+</div>
+<div class="space-y-1.5 pt-2">
+<h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">وظائف إب</h1>
+<p class="text-emerald-300 font-bold text-xs sm:text-sm">سوق العمل والفرص الأكبر - عاصمة اللواء الأخضر 🌿</p>
+<p class="text-slate-300 text-[11px] max-w-xs mx-auto leading-relaxed pt-1">
+            ربط فوري بين المنشآت والكوادر الطبية والمحاسبية والتجارية في الـ 22 مديرية
+          </p>
+</div>
+</div>
+<!-- Bottom Progress Bar & Credits -->
+<div class="w-full z-10 pb-4 flex flex-col items-center space-y-3">
+<div class="w-48 bg-white/10 h-1.5 rounded-full overflow-hidden relative">
+<div class="h-full bg-gradient-to-r from-emerald-400 to-blue-500 rounded-full w-0 transition-all duration-[1400ms] ease-out" id="splash-progress-bar" style="width: 100%;"></div>
+</div>
+<div class="flex items-center gap-2 text-[10px] text-slate-400">
+<i class="fa-solid fa-shield-halved text-emerald-400"></i>
+<span class="">معتمد رسمياً • دعم محفظة جيب 770088836</span>
+</div>
+<span class="text-[9px] text-slate-400">انقر في أي مكان للدخول المباشر</span>
+</div>
+</div>
+<!-- Top System/Status Bar Emulation -->
+<div class="bg-[#0a192f] text-slate-300 text-[11px] px-5 pt-2 pb-1 flex justify-between items-center select-none z-50">
+<span class="font-bold tracking-wider" id="live-time">23:46</span>
+<div class="flex items-center gap-1.5">
+<i class="fa-solid fa-signal text-[10px]"></i>
+<i class="fa-solid fa-wifi text-[10px]"></i>
+<i class="fa-solid fa-battery-full text-xs text-emerald-400"></i>
+</div>
+</div>
+<!-- Persistent App Header -->
+<header class="sticky top-0 z-40 bg-[#0a192f]/95 backdrop-blur-md text-white border-b border-slate-800/80 px-4 py-2.5 flex items-center justify-between shadow-md">
+<div class="flex items-center gap-2.5">
+<button class="hidden w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" id="header-back-btn" onclick="goBack()">
+<i class="fa-solid fa-arrow-right text-sm"></i>
+</button>
+<!-- App Official Logo Image in Header -->
+<div class="w-9 h-9 rounded-xl bg-slate-900 border border-emerald-500/40 p-0.5 shadow-md shadow-emerald-500/20 overflow-hidden flex items-center justify-center shrink-0">
+<img alt="وظائف إب" class="w-full h-full object-cover rounded-[10px]" src="https://lh3.googleusercontent.com/aida/AEtjO1UlYJbhpfZRAo8JESo4a2svS9E9-5TmQON2fHso8E3ehgOy3L5uuHdLQcgsWSLmwBXBt23CTnSzvHOoMPQ_OigFyoTbMxaKIEZqU1zT7Vl6dsJpFm-rZH2e_xZ23U2I5DkwlilyXPzFOM-A4gFzBy7RX9G_I_aumCADLaHAuPCjU1DRcNS7ZnM7FVjYwtHZB8zy_ILJGCF3h8G7hPN56h_zfAKq26eH-6OGFyaZvibLJdm3Fazcr5QExk81">
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h1 class="font-bold text-white text-base leading-tight" id="header-title">وظائف إب</h1>
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+</div>
+<p class="text-[10px] text-emerald-300/90 font-medium" id="header-subtitle">سوق العمل والإعلانات - اللواء الأخضر</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5"><button class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-amber-300 flex items-center justify-center text-xs transition-colors" id="sound-toggle-btn" onclick="toggleAppAudio()" title="تبديل المؤثرات الصوتية"><i class="fa-solid fa-volume-high" id="sound-icon"></i></button>
+<button class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-emerald-300 flex items-center justify-center text-xs transition-colors" onclick="triggerAppSplash()" title="إعادة تشغيل شاشة الإقلاع">
+<i class="fa-solid fa-rocket"></i>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center text-xs transition-colors" onclick="refreshData()" title="تحديث البيانات مع سكيلتون">
+<i class="fa-solid fa-rotate" id="refresh-icon"></i>
+</button>
+<button class="relative w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center text-xs transition-colors" onclick="switchScreen('notifications')" title="مركز الإشعارات">
+<i class="fa-regular fa-bell"></i>
+<span class="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full border border-[#0a192f]"></span>
+</button>
+</div>
+</header>
+<!-- Global Floating Toast Notification -->
+<div class="fixed top-14 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 border border-emerald-500/30 transition-all duration-300 opacity-0 pointer-events-none -translate-y-4" id="app-toast">
+<i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+<span class="" id="toast-message">تمت العملية بنجاح</span>
+</div>
+<!-- MAIN SCROLLABLE CONTENT AREA (CONTAINING ALL SCREENS) -->
+<main class="flex-1 overflow-y-auto pb-24 relative bg-slate-50" id="main-scroll-container">
+<!-- 2. SKELETON LOADER ANIMATION CONTAINER -->
+<div class="hidden px-4 py-3 space-y-4 animate-pulse" id="app-skeleton-loader">
+<!-- Skeleton Hero -->
+<div class="h-44 rounded-3xl bg-slate-300 shimmer-active relative p-4 flex flex-col justify-between">
+<div class="flex justify-between items-center">
+<div class="h-5 w-28 bg-slate-400/80 rounded-full"></div>
+<div class="h-5 w-24 bg-slate-400/80 rounded-lg"></div>
+</div>
+<div class="space-y-2">
+<div class="h-6 w-3/4 bg-slate-400/80 rounded-lg"></div>
+<div class="h-3 w-1/2 bg-slate-400/80 rounded-lg"></div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="h-10 bg-slate-400/80 rounded-xl"></div>
+<div class="h-10 bg-slate-400/80 rounded-xl"></div>
+</div>
+</div>
+<!-- Skeleton Search Bar -->
+<div class="h-12 rounded-2xl bg-slate-200 shimmer-active"></div>
+<!-- Skeleton Categories -->
+<div class="flex gap-2 overflow-hidden">
+<div class="h-8 w-16 bg-slate-200 rounded-xl shrink-0 shimmer-active"></div>
+<div class="h-8 w-24 bg-slate-200 rounded-xl shrink-0 shimmer-active"></div>
+<div class="h-8 w-24 bg-slate-200 rounded-xl shrink-0 shimmer-active"></div>
+<div class="h-8 w-24 bg-slate-200 rounded-xl shrink-0 shimmer-active"></div>
+</div>
+<!-- Skeleton Job Cards -->
+<div class="space-y-3">
+<div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-xl bg-slate-200 shimmer-active shrink-0"></div>
+<div class="flex-1 space-y-2">
+<div class="h-4 w-40 bg-slate-200 rounded shimmer-active"></div>
+<div class="h-3 w-28 bg-slate-200 rounded shimmer-active"></div>
+</div>
+</div>
+<div class="h-3 w-3/4 bg-slate-200 rounded shimmer-active"></div>
+<div class="h-8 bg-slate-200 rounded-xl shimmer-active"></div>
+</div>
+<div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-xl bg-slate-200 shimmer-active shrink-0"></div>
+<div class="flex-1 space-y-2">
+<div class="h-4 w-44 bg-slate-200 rounded shimmer-active"></div>
+<div class="h-3 w-32 bg-slate-200 rounded shimmer-active"></div>
+</div>
+</div>
+<div class="h-3 w-2/3 bg-slate-200 rounded shimmer-active"></div>
+<div class="h-8 bg-slate-200 rounded-xl shimmer-active"></div>
+</div>
+</div>
+</div>
+<!-- REAL APP CONTENT WRAPPER (Hidden when skeleton is shown) -->
+<div class="transition-opacity duration-300" id="real-content-wrapper">
+<div class="bg-[#0a192f] text-white px-4 py-2 border-b border-emerald-500/20 flex items-center justify-between text-xs" id="live-system-strip">
+<div class="flex items-center gap-2"><span class="flex h-2 w-2 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span><span class="text-[11px] font-medium text-slate-200">مزامنة فورية: <strong class="text-emerald-400 font-bold">22 مديرية</strong> نشطة</span><span class="hidden bg-amber-400 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm" id="header-vip-tag">VIP ⭐</span></div>
+<div class="flex items-center gap-2">
+<button class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 transition-all active:scale-95" onclick="switchScreen('jaib_pay')">
+<i class="fa-solid fa-wallet text-amber-400"></i> محفظة جيب: <span class="font-mono">770088836</span>
+</button>
+<button class="bg-white/10 hover:bg-white/20 text-slate-300 text-[10px] px-2 py-0.5 rounded-md flex items-center gap-1 transition-colors" onclick="switchScreen('super_admin')" title="لوحة التحكم والاعتماد">
+<i class="fa-solid fa-shield-halved text-emerald-400"></i> الاعتمادات
+            </button>
+</div>
+</div>
+<!-- SCREEN 1: الرئيسية (HOME SCREEN) -->
+<section class="screen-view" id="screen-home">
+<!-- Hero Banner with Panorama & Stats -->
+<div class="relative bg-gradient-to-b from-[#0a192f] to-[#1e3a8a] text-white p-5 rounded-b-3xl shadow-lg overflow-hidden">
+<!-- Panorama of Ibb City integrated as hero background -->
+<div class="absolute inset-0 opacity-25 mix-blend-overlay pointer-events-none">
+<img alt="بانوراما إب الخضراء" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UyW1HK09bojB_2EbSzqYzj3uFMaSMCU_ecw9gnXLkv57po6cLEY4PuhpDC-FxpJGCSeC3DTMIW-8L54i3v8j3Y86DUiati_kuVrsB7hfmHBp9tGIFN6kVkWXyJfhrUJXoPXJPpgQUXVjcn46gOSOxSxFHT9qeA9WNXa4dnkcNz0eM_XGCntv5aYmC6pX00K4sBrFVTi_r0XH6kbXQCrmme46SFt7-CZVhvmjTDx0aILTl8VGI3ODtOSFc">
+</div>
+<div class="absolute -right-10 -bottom-10 w-44 h-44 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between mb-3">
+<div class="flex items-center gap-1.5">
+<span class="bg-emerald-500/25 text-emerald-300 border border-emerald-400/40 text-[11px] px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> مباشر اليوم في إب
+                </span>
+</div>
+<div class="text-[11px] text-slate-200 flex items-center gap-1 bg-white/15 backdrop-blur-md px-2.5 py-1 rounded-xl cursor-pointer border border-white/15" onclick="showDistrictsModal()">
+<i class="fa-solid fa-location-dot text-emerald-400"></i>
+<span class="font-semibold" id="current-district-label">كل المديريات (22)</span>
+<i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+</div>
+</div>
+<div class="relative z-10 flex items-start gap-3 mb-2">
+<div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-1 shrink-0 overflow-hidden shadow-md">
+<img alt="وظائف إب" class="w-full h-full object-cover rounded-xl" src="https://lh3.googleusercontent.com/aida/AEtjO1UlYJbhpfZRAo8JESo4a2svS9E9-5TmQON2fHso8E3ehgOy3L5uuHdLQcgsWSLmwBXBt23CTnSzvHOoMPQ_OigFyoTbMxaKIEZqU1zT7Vl6dsJpFm-rZH2e_xZ23U2I5DkwlilyXPzFOM-A4gFzBy7RX9G_I_aumCADLaHAuPCjU1DRcNS7ZnM7FVjYwtHZB8zy_ILJGCF3h8G7hPN56h_zfAKq26eH-6OGFyaZvibLJdm3Fazcr5QExk81">
+</div>
+<div>
+<h2 class="text-lg sm:text-xl font-extrabold leading-snug">سوق العمل والفرص الأكبر في محافظة إب 🌿</h2>
+<p class="text-[11px] text-slate-200/90 leading-relaxed mt-0.5">اكتشف أحدث الوظائف المعتمدة، تواصل مباشرة مع المنشآت، أو ثبت إعلانك بضغطة زر.</p>
+</div>
+</div>
+<div class="relative z-10 grid grid-cols-2 gap-2.5 mb-3.5">
+<div class="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-xl">
+<div class="text-emerald-400 font-extrabold text-lg leading-tight">+1,240 فرصة</div>
+<div class="text-[10px] text-slate-200">وظائف شاغرة بالمديريات</div>
+</div>
+<div class="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-xl">
+<div class="text-amber-300 font-extrabold text-lg leading-tight">22 مديرية</div>
+<div class="text-[10px] text-slate-200">تغطية اللواء الأخضر بالكامل</div>
+</div>
+</div>
+<div class="relative z-10 bg-emerald-500/15 border border-emerald-400/25 rounded-xl p-2.5 mb-3 flex items-center justify-between backdrop-blur-xs">
+<div class="flex items-center gap-2">
+<i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+<div>
+<span class="text-xs font-bold text-white block">توثيق فوري ومعتمد</span>
+<span class="text-[10px] text-slate-300">جميع الشواغر معتمدة وتدعم سداد وتثبيت جيب والكريمي</span>
+</div>
+</div>
+<span class="text-[10px] bg-emerald-500 text-white font-bold px-2 py-0.5 rounded-full shadow-sm">100% موثوق</span>
+</div>
+<div class="relative z-10 flex gap-2">
+<button class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-2.5 px-3 rounded-xl shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-1.5 transition-transform active:scale-95" onclick="scrollToJobs()">
+<i class="fa-solid fa-magnifying-glass"></i> استعرض شواغر اليوم
+              </button>
+<button class="bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs py-2.5 px-3 rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-transform active:scale-95" onclick="switchScreen('jaib_pay')">
+<i class="fa-solid fa-wallet"></i> محفظة جيب
+              </button>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="px-4 -mt-3.5 relative z-10">
+<div class="bg-white rounded-2xl shadow-md border border-slate-200 p-2 flex items-center gap-2">
+<i class="fa-solid fa-search text-slate-400 pr-2"></i>
+<input class="w-full bg-transparent text-xs text-slate-800 placeholder-slate-400 outline-none" id="job-search-input" onkeyup="filterJobs()" placeholder="ابحث عن وظيفة، تخصص، أو جهة عمل..." type="text">
+<button class="bg-slate-100 text-slate-600 hover:bg-slate-200 px-2.5 py-1.5 rounded-xl text-xs flex items-center gap-1 font-medium">
+<i class="fa-solid fa-sliders text-xs"></i>
+</button>
+</div>
+</div><div class="px-4 mt-3.5 space-y-2.5" id="market-stats-section"><div class="bg-white rounded-2xl border border-slate-200 p-3.5 shadow-sm space-y-3"><div class="flex items-center justify-between border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="flex h-2.5 w-2.5 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span><h3 class="font-extrabold text-slate-900 text-xs tracking-tight">مؤشرات وحركة سوق التوظيف اليوم في إب 📊</h3></div><span class="text-[9px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-200">مباشر AI</span></div><div class="grid grid-cols-3 gap-2"><div class="bg-slate-50 p-2 rounded-xl flex flex-col items-center text-center border border-slate-100"><div class="relative w-10 h-10 flex items-center justify-center"><svg class="w-full h-full -rotate-90" viewBox="0 0 36 36"><path class="text-slate-200" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path><path class="text-emerald-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="94, 100" stroke-linecap="round" stroke-width="3.5"></path></svg><span class="absolute text-[10px] font-black text-slate-900 font-mono">94%</span></div><span class="text-[9px] font-bold text-slate-800 mt-1.5">مطابقة AI</span><span class="text-[8px] text-slate-400">دقة الترشيح</span></div><div class="bg-slate-50 p-2 rounded-xl flex flex-col items-center text-center border border-slate-100"><div class="relative w-10 h-10 flex items-center justify-center"><svg class="w-full h-full -rotate-90" viewBox="0 0 36 36"><path class="text-slate-200" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path><path class="text-blue-600" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="82, 100" stroke-linecap="round" stroke-width="3.5"></path></svg><span class="absolute text-[9px] font-black text-slate-900 font-mono">48 س</span></div><span class="text-[9px] font-bold text-slate-800 mt-1.5">سرعة التوظيف</span><span class="text-[8px] text-slate-400">متوسط القبول</span></div><div class="bg-slate-50 p-2 rounded-xl flex flex-col items-center text-center border border-slate-100"><div class="relative w-10 h-10 flex items-center justify-center"><svg class="w-full h-full -rotate-90" viewBox="0 0 36 36"><path class="text-slate-200" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path><path class="text-amber-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="76, 100" stroke-linecap="round" stroke-width="3.5"></path></svg><span class="absolute text-[9px] font-black text-amber-600 font-mono">+182</span></div><span class="text-[9px] font-bold text-slate-800 mt-1.5">عقود معتمدة</span><span class="text-[8px] text-slate-400">هذا الشهر</span></div></div><div class="space-y-2 pt-1 border-t border-slate-100"><div class="flex items-center justify-between text-[10px] text-slate-600"><span class="font-bold text-slate-800 flex items-center gap-1"><i class="fa-solid fa-chart-column text-blue-700"></i> التخصصات الأكثر طلباً في إب:</span><span class="text-emerald-700 font-bold">تحديث مؤشر الطلب</span></div><div class="space-y-1.5 text-[10px]"><div><div class="flex justify-between items-center mb-0.5"><span class="text-slate-700 font-medium">🌿 صحة وطب وصيدلة</span><span class="font-bold text-emerald-600 font-mono">48%</span></div><div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-gradient-to-r from-emerald-400 to-emerald-600 h-full rounded-full" style="width: 48%;"></div></div></div><div><div class="flex justify-between items-center mb-0.5"><span class="text-slate-700 font-medium">💼 مالية، محاسبة وأنظمة أونكس برو</span><span class="font-bold text-blue-800 font-mono">34%</span></div><div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-gradient-to-r from-blue-500 to-blue-800 h-full rounded-full" style="width: 34%;"></div></div></div><div><div class="flex justify-between items-center mb-0.5"><span class="text-slate-700 font-medium">📡 تقنية معلومات، ميكروتك وشبكات</span><span class="font-bold text-purple-700 font-mono">18%</span></div><div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-gradient-to-r from-purple-400 to-indigo-600 h-full rounded-full" style="width: 18%;"></div></div></div></div></div></div></div>
+<!-- Category Pills -->
+<div class="px-4 mt-4 space-y-2.5"><div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="flex h-2.5 w-2.5 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span></span><h3 class="font-extrabold text-slate-900 text-sm tracking-tight">الإعلانات المثبتة المميزة (Pinned Ads) ⭐</h3></div><span class="text-[10px] bg-amber-50 text-amber-900 font-bold px-2 py-0.5 rounded-full border border-amber-200 cursor-pointer hover:bg-amber-100" onclick="switchScreen('jaib_pay')">+ ثبت إعلانك</span></div><div class="flex gap-3 overflow-x-auto pb-1 no-scrollbar select-none"><div class="min-w-[270px] max-w-[280px] bg-gradient-to-br from-slate-950 via-[#0a192f] to-blue-950 text-white rounded-2xl p-3.5 shadow-lg border border-amber-400/40 relative overflow-hidden flex flex-col justify-between shrink-0 transition-all"><div class="absolute -left-6 -bottom-6 w-24 h-24 bg-amber-500/15 rounded-full blur-xl pointer-events-none"></div><div class="flex items-start justify-between relative z-10 gap-2"><div class="flex items-center gap-2.5"><div class="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-inner"><img alt="مستشفى الكندي" class="w-full h-full object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmRp2JV83mxYmOveJVCOJUoxZsxVOir8ClHVKeZ7IroQp1BlBHymgGhQ6iO_G4EGhcRBdkd_GFGYdOqtd-flS1qT7REas23tzDWR93LqYhnHl_4mrK8VJL6FXoavTBnXYkJ2J8-OTlndQ25ybMrmc5GJxz6Eo-VXatjsJVIxfFf1xvpNQoEj5jLEDqtvXz_rhoy3ewvOK_Z__ZY_F7vcHO0Ytx2LI98WmoAu-PLwOHU04HPydPwmM25Q"></div><div><span class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm inline-block">مثبت رسمي VIP</span><h4 class="font-black text-xs text-white leading-tight mt-0.5">مستشفى الكندي التخصصي</h4></div></div><button class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-emerald-400 flex items-center justify-center text-xs shrink-0" onclick="triggerCall('770088836')"><i class="fa-solid fa-phone"></i></button></div><p class="text-[11px] text-slate-300 mt-2 line-clamp-2 leading-relaxed relative z-10">افتتاح قسم الطوارئ والعناية الفائقة وجراحة المناظير مع استقطاب نخبة استشاريين.</p><div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] relative z-10"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> إب - الدائري الغربي</span><button class="bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-2.5 py-1 rounded-lg transition-transform active:scale-95 shadow" onclick="switchScreen('job_detail')">تفاصيل الإعلان</button></div></div><div class="min-w-[270px] max-w-[280px] bg-gradient-to-br from-[#06182c] via-[#0d2a4a] to-slate-900 text-white rounded-2xl p-3.5 shadow-lg border border-blue-400/30 relative overflow-hidden flex flex-col justify-between shrink-0 transition-all"><div class="flex items-start justify-between relative z-10 gap-2"><div class="flex items-center gap-2.5"><div class="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-inner"><img alt="سيتي مول إب" class="w-full h-full object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm3equnTh6osaUUgV_sM-MQHlmbDORMcD15sIChyxQMdYaozjhEOhn-KOzN-mnOJhFLZBdnIQKtMxvQ-iw2hb2DtCf3llS6vun9dLFuSYTHtr8lKO33skHLIeREA749tkQEy7GBRK9j0MVZqCjSsGQ4fM0SvQ8YpY0Lei5AmdduQZFyiCHdPHX7XLF-56gNkUBlCjMyn8VxDpyBXTWePfK6lbD6CODgKDkt3LFEiYKZc7KUN1_zVw3pg"></div><div><span class="bg-blue-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm inline-block">عرض تجاري مثبت</span><h4 class="font-black text-xs text-white leading-tight mt-0.5">مركز اللواء التجاري والتسوق</h4></div></div><button class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-emerald-400 flex items-center justify-center text-xs shrink-0" onclick="triggerWhatsApp('770088836')"><i class="fa-brands fa-whatsapp"></i></button></div><p class="text-[11px] text-slate-300 mt-2 line-clamp-2 leading-relaxed relative z-10">مساحات تجارية ومكاتب شركات جاهزة للتأجير الفوري بأرقى أحياء محافظة إب.</p><div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] relative z-10"><span class="text-blue-300 font-semibold flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> إب - شارع تعز</span><button class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-2.5 py-1 rounded-lg transition-transform active:scale-95 shadow" onclick="switchScreen('ads')">عرض المعرض</button></div></div></div></div>
+<!-- Featured Commercial Ad Card -->
+<!-- Job Listings -->
+<div class="px-4 mt-3 space-y-1.5"><div class="flex items-center justify-between"><span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-sliders text-blue-700 text-xs"></i> تصفح حسب التخصص</span><span class="text-[10px] text-slate-400 font-medium">تحديث لحظي</span></div><div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar"><button class="cat-pill bg-blue-900 text-white px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 shadow-sm flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95" onclick="filterCategory('all')"><i class="fa-solid fa-house text-[10px]"></i> الكل</button><button class="cat-pill bg-white text-slate-700 hover:text-blue-800 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 shadow-xs flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95" onclick="filterCategory('صحة')"><i class="fa-solid fa-prescription-bottle-medical text-emerald-600 text-xs"></i> طب وصيدلة</button><button class="cat-pill bg-white text-slate-700 hover:text-blue-800 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 shadow-xs flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95" onclick="filterCategory('محاسبة')"><i class="fa-solid fa-building-columns text-blue-700 text-xs"></i> مالية ومحاسبة</button><button class="cat-pill bg-white text-slate-700 hover:text-blue-800 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 shadow-xs flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95" onclick="filterCategory('تقنية')"><i class="fa-solid fa-wifi text-purple-700 text-xs"></i> تقنية وهندسة</button></div></div><div class="px-4 mt-4"><div class="bg-gradient-to-r from-rose-50 via-amber-50 to-emerald-50 p-3.5 rounded-2xl border-2 border-rose-200 shadow-sm relative overflow-hidden"><div class="flex items-center justify-between mb-2"><div class="flex items-center gap-2"><span class="bg-rose-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md flex items-center gap-1 animate-pulse"><i class="fa-solid fa-clock"></i> وظائف عاجلة فورية</span><span class="text-[11px] font-bold text-slate-800">مطلوب للمباشرة هذا الأسبوع ⚡</span></div><span class="text-[10px] text-rose-600 font-extrabold bg-white px-2 py-0.5 rounded-full border border-rose-200 shadow-xs">3 شواغر</span></div><div class="grid grid-cols-2 gap-2 text-xs"><div class="bg-white/95 p-2.5 rounded-xl border border-rose-100 shadow-xs flex items-center justify-between cursor-pointer hover:border-rose-300 transition-all" onclick="switchScreen('job_detail')"><div class="flex items-center gap-2 overflow-hidden"><img alt="طبيبة نساء" class="w-8 h-8 rounded-lg object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCrrPrViNfMc0k7oaqliNMveCsAhs6Zb--5FSWGSQainzlugpZ3XkXlZXqQI5LJah1p_iVQgEyf4hY9E_uKGOfyJn8TkDHEvbx9BOtwg9g0fHJkRfzrgF5_fd2pjCI_KIw-JV7MRpWBF134Squ-HVq0HLYV4yUtKO1QdE0YyG1C01NGGP91pqvymzEXlHe-A-CZAJLsCauU7_28elT004gcylZ24UbNAuhihGc3jgi-uxarjekPgWc_A"><div class="overflow-hidden"><h5 class="font-bold text-[11px] text-slate-900 truncate">أخصائية نساء وولادة</h5><span class="text-[9px] text-emerald-600 font-semibold block">مستشفى الصفوة • سكن مؤمن</span></div></div></div><div class="bg-white/95 p-2.5 rounded-xl border border-rose-100 shadow-xs flex items-center justify-between cursor-pointer hover:border-rose-300 transition-all" onclick="switchScreen('job_detail')"><div class="flex items-center gap-2 overflow-hidden"><img alt="محاسب قانوني" class="w-8 h-8 rounded-lg object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsrRmtQSsC-PFDc8cJka6j5J_hGBTMjSzPQaEj6pa7gu151CdXJwaDHaYKVQQSHpGCiFcPbdmYR2C_P6ACPRDZc0bL_boqCVelG9vanZvsbyiHvSdt9dsPIFKSgUE8RtjXbBQjTwpga8QGMAw2fsn0pe5hhAkDz_6djSNHWzNv2CqfdPBz_8xfFaJLT4gh7sV4O_BUOVZq1Fyhh7MogeL0wcrje49QRXs6iwJnDCJvKmn9cpeugM9Ypw"><div class="overflow-hidden"><h5 class="font-bold text-[11px] text-slate-900 truncate">مدير مالي وأونكس</h5><span class="text-[9px] text-blue-700 font-semibold block">مجموعة هائل • يريم</span></div></div></div></div></div></div><div class="px-4 mt-5" id="jobs-section">
+<div class="flex items-center justify-between mb-3">
+<div class="">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-slate-900 text-sm">أحدث فرص العمل اليوم</h3>
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+</div>
+<p class="text-[10px] text-slate-500">تم التدقيق والمطابقة مع المنشآت المعتمدة (تحديث لحظي)</p>
+</div>
+<div class="flex items-center gap-1.5"><button class="text-slate-500 hover:text-blue-800 text-xs p-1" onclick="refreshData()" title="تحديث لحظي"><i class="fa-solid fa-rotate text-xs" id="jobs-refresh-icon"></i></button><span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100" id="jobs-count-badge">4 شواغر نشطة</span></div>
+</div>
+<div class="space-y-3" id="job-cards-container"><!-- Job Card 1 (VIP Pharmacy) --><div class="job-item bg-white p-4 rounded-2xl border-2 border-emerald-500/30 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden" data-category="صحة" data-title="صيدلي قانوني"><div class="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-bl-lg shadow-sm flex items-center gap-1"><i class="fa-solid fa-crown text-amber-300"></i> شاغر موثق ومميز</div><div class="flex items-start justify-between pt-1"><div class="flex gap-3"><div class="w-13 h-13 w-12 h-12 rounded-xl border border-slate-200 overflow-hidden shrink-0 shadow-sm"><img alt="صيدلية الشفاء الحديثة" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi0o4mvs5r2r0Ib5agjiIQHhNYXLvdvF4iYgUG_8p9Qs-Jvbdc2Lr5i00OkuL7P9DH_HyyzyJRsrq0NwYk-dxm6ME-OwJtcWrxrBPbsasmqQNVlkSCcdmWh0gwPPocLmkA9HgAyDI6TErT-XupdmxNQJoDirUxsLYYrSGvrjLsSts8oPcoLC2mv1cf98BlWpX-4IzdemeWFkccB_atAyBBo0MTSq8dBmdT7-K64oCxqDPw51X3tMfH7A"></div><div><h4 class="font-bold text-slate-900 text-sm leading-snug">صيدلي قانوني - مناوب مسائي</h4><p class="text-xs text-blue-700 font-semibold flex items-center gap-1 mt-0.5">صيدلية الشفاء الحديثة <i class="fa-solid fa-circle-check text-emerald-500 text-[11px]"></i></p><div class="flex flex-wrap items-center gap-1.5 mt-1.5 text-[11px] text-slate-500"><span class="bg-slate-50 px-2 py-0.5 rounded"><i class="fa-solid fa-location-dot text-slate-400"></i> إب - شارع العدين</span><span class="bg-slate-50 px-2 py-0.5 rounded"><i class="fa-regular fa-clock text-slate-400"></i> دوام كامل</span><span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold text-[10px] border border-emerald-100">يوفر سكن مجاني</span></div></div></div><button class="text-slate-300 hover:text-amber-500 text-base pt-1" onclick="toggleBookmark(this)"><i class="fa-regular fa-bookmark"></i></button></div><div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between"><div><span class="text-[10px] text-slate-400 block font-medium">الراتب المقترح:</span><span class="font-extrabold text-slate-900 text-xs text-emerald-700">350,000 - 450,000 ر.ي</span></div><div class="flex items-center gap-1.5"><button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1" onclick="switchScreen('chat')"><i class="fa-regular fa-comment-dots text-blue-700"></i> محادثة</button><button class="bg-blue-900 hover:bg-blue-950 text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95" onclick="playTone('chime'); switchScreen('job_detail')">تقديم سريع</button></div></div></div><!-- Job Card 2 (Accounting & Import) --><div class="job-item bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-shadow relative" data-category="محاسبة" data-title="محاسب مالي معتمد"><div class="flex items-start justify-between"><div class="flex gap-3"><div class="w-12 h-12 rounded-xl border border-slate-200 overflow-hidden shrink-0 shadow-sm"><img alt="شركة البركة للتجارة" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn_CLpuwbDF2LcbyRZNdNPHYYeqASdQQ8vWliqimbfmaEzpsIC2MUbLD7RP6dLrU33t7WueEuraLxL3FD9pWWEIHw5NLny8suA19mpOLglU1WcigyMvFj1ITgtJEkj1eyfv_Hf3n6m6aYcMv9hNBtD60Xtaec-2MErZWu36wVCjJILWVUTKiNC-EUrG5adPLcO1OztaYpP0ne1kljkLySdLmb97anVDZWh-HDxKWUIgpfD-PYQnwWD0Q"></div><div><div class="flex items-center gap-1.5"><h4 class="font-bold text-slate-900 text-sm leading-snug">محاسب عام (أونكس برو Onyx)</h4><span class="bg-rose-50 text-rose-600 text-[9px] font-bold px-1.5 py-0.5 rounded border border-rose-200">عاجل</span></div><p class="text-xs text-blue-700 font-semibold flex items-center gap-1 mt-0.5">شركة البركة للتجارة والاستيراد <i class="fa-solid fa-circle-check text-emerald-500 text-[11px]"></i></p><div class="flex flex-wrap items-center gap-1.5 mt-1.5 text-[11px] text-slate-500"><span class="bg-slate-50 px-2 py-0.5 rounded"><i class="fa-solid fa-location-dot text-slate-400"></i> إب - شارع تعز</span><span class="bg-slate-50 px-2 py-0.5 rounded"><i class="fa-regular fa-clock text-slate-400"></i> دوام صباحي</span><span class="bg-blue-50 text-blue-800 px-2 py-0.5 rounded font-bold text-[10px]">خبرة سنتين</span></div></div></div><button class="text-slate-300 hover:text-amber-500 text-base" onclick="toggleBookmark(this)"><i class="fa-regular fa-bookmark"></i></button></div><div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between"><div><span class="text-[10px] text-slate-400 block font-medium">الراتب المتوقع:</span><span class="font-extrabold text-slate-900 text-xs">مجزي يحدد بالمقابلة</span></div><div class="flex items-center gap-1.5"><button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1" onclick="switchScreen('chat')"><i class="fa-regular fa-comment-dots text-blue-700"></i> محادثة</button><button class="bg-blue-900 hover:bg-blue-950 text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95" onclick="playTone('chime'); switchScreen('job_detail')">تقديم سريع</button></div></div></div><!-- Job Card 3 (Tech & Telecom) --><div class="job-item bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-shadow relative" data-category="تقنية" data-title="مهندس شبكات"><div class="flex items-start justify-between"><div class="flex gap-3"><div class="w-12 h-12 rounded-xl border border-slate-200 overflow-hidden shrink-0 shadow-sm"><img alt="مؤسسة يريم للاتصالات" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdN2i-Vza-QCeoGVdpzRkd0YZgzlBMLjXO2KxEs8Tl1BSiQJsF1NmB9jgH2eZkG_v1zr95EfjhCRboSLk_TpkyXamCxLm4SHnDmNsDF5TD-1FuduzabUKvuncOQMCSMVjb9MJx6J3drNX40unIUKZMxPAM2NiAXDDwzxxKQlNM2OogK6uIAuwwrAOU5gn01-PkqPfyKK58T0jd7cSBEhuOUpMLYqmoqG23URu1oKh3f5126aKn_Afppw"></div><div><h4 class="font-bold text-slate-900 text-sm leading-snug">مهندس شبكات ومسؤول سيرفرات</h4><p class="text-xs text-blue-700 font-semibold flex items-center gap-1 mt-0.5">مؤسسة يريم للاتصالات والتقنية <i class="fa-solid fa-circle-check text-emerald-500 text-[11px]"></i></p><div class="flex flex-wrap items-center gap-1.5 mt-1.5 text-[11px] text-slate-500"><span class="bg-slate-50 px-2 py-0.5 rounded"><i class="fa-solid fa-location-dot text-slate-400"></i> إب - يريم</span><span class="bg-slate-50 px-2 py-0.5 rounded"><i class="fa-regular fa-clock text-slate-400"></i> دوام كامل</span><span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded font-bold text-[10px] border border-purple-100">ميكروتك &amp; فايبر</span></div></div></div><button class="text-slate-300 hover:text-amber-500 text-base" onclick="toggleBookmark(this)"><i class="fa-regular fa-bookmark"></i></button></div><div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between"><div><span class="text-[10px] text-slate-400 block font-medium">الراتب:</span><span class="font-extrabold text-slate-900 text-xs text-emerald-700">280,000 ر.ي + بدلات</span></div><div class="flex items-center gap-1.5"><button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1" onclick="switchScreen('chat')"><i class="fa-regular fa-comment-dots text-blue-700"></i> محادثة</button><button class="bg-blue-900 hover:bg-blue-950 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm transition-transform active:scale-95" onclick="playTone('chime'); switchScreen('job_detail')">تقديم سريع</button></div></div></div></div>
+</div>
+</section>
+<!-- SCREEN 2: طلبات التوظيف (JOB REQUESTS SCREEN) -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-requests">
+<div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white p-4 rounded-2xl shadow-md">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-bold text-base">دليل الكوادر والباحثين عن عمل 👨‍⚕️</h3>
+<p class="text-xs text-blue-200 mt-0.5">تصفح كفاءات محافظة إب المؤهلة للتواصل الفوري</p>
+</div>
+<button class="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow flex items-center gap-1" onclick="openAddActionSheet()">
+<i class="fa-solid fa-plus"></i> انشر سيرتك
+              </button>
+</div>
+</div>
+<!-- Seeker Card 1 (VIP) -->
+<div class="bg-white rounded-2xl border-2 border-amber-300/80 p-4 shadow-sm relative overflow-hidden">
+<div class="absolute -left-12 top-4 -rotate-45 bg-amber-400 text-slate-950 font-extrabold text-[9px] px-10 py-0.5 shadow-sm">
+              طلب VIP مميز
+            </div>
+<div class="flex items-start gap-3">
+<div class="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 text-2xl overflow-hidden shrink-0">
+<i class="fa-solid fa-user-doctor text-blue-800"></i>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h4 class="font-bold text-slate-900 text-sm">د. سارة عبدالملك السقاف</h4>
+<i class="fa-solid fa-circle-check text-blue-600 text-xs"></i>
+</div>
+<p class="text-xs text-emerald-600 font-semibold">صيدلانية سريرية وتغذية علاجية</p>
+<div class="text-[11px] text-slate-500 mt-1 flex items-center gap-2">
+<span class=""><i class="fa-solid fa-location-dot"></i> إب - الظهار</span>
+<span class="">• خبرة 3 سنوات</span>
+</div>
+</div>
+</div>
+<div class="mt-3 flex flex-wrap gap-1.5">
+<span class="bg-emerald-50 text-emerald-700 text-[10px] px-2 py-0.5 rounded-md font-semibold border border-emerald-100">
+<i class="fa-solid fa-certificate"></i> ترخيص مزاولة مهنة موثق
+              </span>
+<span class="bg-blue-50 text-blue-700 text-[10px] px-2 py-0.5 rounded-md font-semibold border border-blue-100">
+                متفرغة للمباشرة الفورية
+              </span>
+</div>
+<p class="text-xs text-slate-600 mt-2 line-clamp-2">حاصلة على بكالوريوس صيدلة، خبرة ممتازة في إدارة مستودعات الأدوية وصرف الوصفات والأنظمة الطبية.</p>
+<div class="mt-3 pt-3 border-t border-slate-100 flex gap-2">
+<button class="flex-1 bg-blue-800 hover:bg-blue-900 text-white py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5" onclick="switchScreen('candidate_detail')">
+<i class="fa-regular fa-id-card"></i> عرض الملف الكامل
+              </button>
+<button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1" onclick="switchScreen('chat')">
+<i class="fa-regular fa-comment-dots"></i> محادثة
+              </button>
+</div>
+</div>
+<!-- Seeker Card 2 -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+<div class="flex items-start gap-3">
+<div class="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 text-2xl overflow-hidden shrink-0">
+<i class="fa-solid fa-user-tie text-slate-700"></i>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<h4 class="font-bold text-slate-900 text-sm">أ. رشاد المقالح</h4>
+<i class="fa-solid fa-circle-check text-blue-600 text-xs"></i>
+</div>
+<p class="text-xs text-blue-700 font-semibold">محاسب عام أول وخبير أنظمة Onyx Pro</p>
+<div class="text-[11px] text-slate-500 mt-1 flex items-center gap-2">
+<span class=""><i class="fa-solid fa-location-dot"></i> إب - المشنة</span>
+<span class="">• خبرة 5 سنوات</span>
+</div>
+</div>
+</div>
+<div class="mt-2.5 flex flex-wrap gap-1.5">
+<span class="bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded-md font-semibold">أنظمة يمن سوفت</span>
+<span class="bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded-md font-semibold">إعداد الحسابات الختامية والضرائب</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 flex gap-2">
+<button class="flex-1 bg-slate-800 hover:bg-slate-900 text-white py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5" onclick="switchScreen('candidate_detail')">
+<i class="fa-regular fa-id-card"></i> عرض الملف الكامل
+              </button>
+<button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1" onclick="triggerCall('770088836')">
+<i class="fa-solid fa-phone"></i> اتصال
+              </button>
+</div>
+</div>
+</section>
+<!-- SCREEN 3: تقديم شاغر للاعتماد والمراجعة الإدارية (SUBMIT VACANCY TO SUPER ADMIN) -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-submit_vacancy">
+<div class="bg-blue-900 text-white p-4 rounded-2xl shadow-sm">
+<div class="flex items-center gap-2 mb-1">
+<i class="fa-solid fa-shield-halved text-emerald-400 text-lg"></i>
+<h3 class="font-bold text-base">تقديم شاغر وظيفي للاعتماد الإداري</h3>
+</div>
+<p class="text-xs text-blue-200">يتم إرسال الطلب فوراً إلى لوحة تحكم الإدارة (Super Admin) لتدقيق الترخيص ونشره في التطبيق.</p>
+</div>
+<form class="space-y-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm" onsubmit="handleJobSubmission(event)">
+<div>
+<label class="block text-xs font-bold text-slate-800 mb-1">اسم المنشأة / المستشفى / الشركة المشغلة *</label>
+<input class="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-700" placeholder="مثال: مستشفى النصر التخصصي، شركة الأمل للتجارة" required="" type="text">
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block text-xs font-bold text-slate-800 mb-1">المسمى الوظيفي الدقيق *</label>
+<input class="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-700" placeholder="مثال: طبيب عام، محاسب" required="" type="text">
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-800 mb-1">المديرية في إب *</label>
+<select class="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-700 bg-white">
+<option>مديرية الظهار - مركز المحافظة</option>
+<option>مديرية المشنة</option>
+<option>مديرية جبلة</option>
+<option>مديرية يريم</option>
+<option>مديرية السدة</option>
+<option>مديرية العدين</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block text-xs font-bold text-slate-800 mb-1">الراتب المقترح (ريال يمني)</label>
+<input class="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-700" placeholder="مثال: 350,000 أو قابل للتفاوض" type="text">
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-800 mb-1">نظام الدوام</label>
+<select class="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-700 bg-white">
+<option>دوام كامل (صباحي)</option>
+<option>دوام مسائي</option>
+<option>شفتات متناوبة</option>
+</select>
+</div>
+</div>
+<div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+<span class="text-xs font-bold text-slate-800">توفير سكن مجاني للكادر (من خارج إب)</span>
+<input checked="" class="w-4 h-4 accent-emerald-600" type="checkbox">
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-800 mb-1">الشروط والمؤهلات المطلوبة</label>
+<textarea class="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-700" placeholder="سنة التخرج، سنوات الخبرة، رخصة وزارة الصحة إن وجدت..." rows="3"></textarea>
+</div>
+<!-- Feature Promotion Option -->
+<div class="p-3 bg-amber-50 rounded-xl border border-amber-200 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-amber-900">تثبيت الشاغر في أعلى التطبيق (VIP)</span>
+<input class="w-4 h-4 accent-amber-500" id="promote-checkbox" onchange="togglePromoteInfo(this)" type="checkbox">
+</div>
+<div class="hidden text-[11px] text-amber-800 space-y-1 pt-1 border-t border-amber-200" id="promote-info">
+<p class="">رسوم التثبيت: 15,000 ريال يمني تحول لمحفظة جيب (<strong class="text-blue-900">770088836</strong>).</p>
+<input class="w-full text-xs p-2 rounded-lg bg-white border border-amber-300" placeholder="أدخل رقم إشعار الحوالة لتأكيد التثبيت فوراً" type="text">
+</div>
+</div>
+<button class="w-full bg-blue-900 hover:bg-blue-950 text-white font-bold py-3 rounded-xl text-xs shadow-md flex items-center justify-center gap-2" type="submit">
+<i class="fa-solid fa-paper-plane text-emerald-400"></i> إرسال الطلب للاعتماد الفوري 🚀
+            </button>
+</form>
+</section>
+<!-- SCREEN 4: تفاصيل الوظيفة والتقديم الفوري (JOB DETAILS) -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-job_detail">
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-slate-100">
+<div>
+<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">شاغر نشط وموثق</span>
+<h3 class="font-bold text-base text-slate-900 mt-1">صيدلي قانوني - مناوب مسائي</h3>
+<p class="text-xs text-blue-700 font-medium">صيدلية الشفاء الحديثة - إب</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl">
+<i class="fa-solid fa-prescription-bottle-medical"></i>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 my-3 text-xs">
+<div class="bg-slate-50 p-2 rounded-xl">
+<span class="text-slate-400 block text-[10px]">الراتب الشهري:</span>
+<strong class="text-slate-900">350,000 - 450,000 ر.ي</strong>
+</div>
+<div class="bg-slate-50 p-2 rounded-xl">
+<span class="text-slate-400 block text-[10px]">الدوام:</span>
+<strong class="text-slate-900">مسائي (8 ساعات)</strong>
+</div>
+<div class="bg-slate-50 p-2 rounded-xl">
+<span class="text-slate-400 block text-[10px]">الموقع:</span>
+<strong class="text-slate-900">شارع العدين، جوار فندق إب</strong>
+</div>
+<div class="bg-slate-50 p-2 rounded-xl">
+<span class="text-slate-400 block text-[10px]">السكن:</span>
+<strong class="text-emerald-600">متوفر ومجاني</strong>
+</div>
+</div>
+<div class="space-y-2 text-xs text-slate-700 mt-3">
+<h4 class="font-bold text-slate-900">شروط الوظيفة:</h4>
+<ul class="list-disc list-inside space-y-1 text-slate-600 pr-1">
+<li class="">شهادة بكالوريوس صيدلة معتمدة.</li>
+<li class="">ترخيص مزاولة مهنة يمني ساري المفعول من وزارة الصحة.</li>
+<li class="">خبرة سريرية لا تقل عن سنة في صيدليات المجتمع.</li>
+<li class="">القدرة على استخدام الأنظمة المحاسبية الصيدلانية.</li>
+</ul>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex gap-2">
+<button class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/30" onclick="handleInstantApply()">
+<i class="fa-solid fa-file-arrow-up"></i> تقديم طلب التوظيف الفوري
+              </button>
+<button class="bg-blue-900 hover:bg-blue-950 text-white px-4 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1" onclick="switchScreen('chat')">
+<i class="fa-regular fa-comment-dots"></i> شات
+              </button>
+</div>
+</div>
+</section>
+<!-- SCREEN 5: دليل الإعلانات التجارية (COMMERCIAL DIRECTORY) -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-ads">
+<div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-4 rounded-2xl shadow-md flex items-center justify-between">
+<div>
+<h3 class="font-bold text-base">دليل إب التجاري والخدمات 📢</h3>
+<p class="text-xs text-amber-100 mt-0.5">عروض الشركات والمحلات والخدمات في المحافظة</p>
+</div>
+<button class="bg-white text-slate-900 px-3 py-1.5 rounded-xl text-xs font-bold shadow" onclick="switchScreen('jaib_pay')">
+              ثبت إعلانك
+            </button>
+</div>
+<div class="space-y-3">
+<!-- Ad 1 -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded">خدمات تقنية وشبكات</span>
+<span class="text-[10px] text-slate-400">منذ 3 ساعات</span>
+</div>
+<h4 class="font-bold text-slate-900 text-sm">مؤسسة الأفق للحلول الرقمية وكاميرات المراقبة</h4>
+<p class="text-xs text-slate-600 mt-1">توريد وتركيب كاميرات مراقبة وشبكات الفايبر وسيرفرات ميكروتك لكافة محلات وشركات إب بأسعار منافسة مع ضمان سنة.</p>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+<span class="text-slate-500"><i class="fa-solid fa-location-dot text-slate-400"></i> إب - شارع تعز</span>
+<div class="flex gap-2">
+<button class="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-lg font-bold flex items-center gap-1" onclick="triggerCall('770088836')">
+<i class="fa-solid fa-phone"></i> اتصال
+                  </button>
+<button class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg font-bold flex items-center gap-1" onclick="triggerWhatsApp('770088836')">
+<i class="fa-brands fa-whatsapp"></i> واتساب
+                  </button>
+</div>
+</div>
+</div>
+<!-- Ad 2 -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="bg-purple-50 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded">دورات وتدريب</span>
+<span class="text-[10px] text-slate-400">اليوم</span>
+</div>
+<h4 class="font-bold text-slate-900 text-sm">معهد اللواء للغات والأنظمة المحاسبية</h4>
+<p class="text-xs text-slate-600 mt-1">بدء التسجيل في دبلوم المحاسبة الشامل وتطبيقات أونكس برو العملية لتأهيلك لسوق العمل مباشرة في كبرى شركات إب.</p>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+<span class="text-slate-500"><i class="fa-solid fa-location-dot text-slate-400"></i> إب - الدائري</span>
+<button class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg font-bold flex items-center gap-1" onclick="triggerWhatsApp('770088836')">
+<i class="fa-brands fa-whatsapp"></i> استفسار
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- SCREEN 6: بوابة الدفع ومحفظة جيب 770088836 & بنك الكريمي 3058821941 -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-jaib_pay">
+<div class="bg-gradient-to-r from-[#0a192f] to-[#1e3a8a] text-white p-4 rounded-2xl shadow-md">
+<div class="flex items-center justify-between mb-1">
+<span class="text-emerald-400 text-xs font-bold"><i class="fa-solid fa-shield-check"></i> دفع إلكتروني رسمي</span>
+<span class="bg-white/20 text-[10px] px-2 py-0.5 rounded">معتمد وموثق</span>
+</div>
+<h3 class="font-extrabold text-base">بوابة الدفع - محفظة جيب &amp; الكريمي</h3>
+<p class="text-xs text-slate-200 mt-1">لتثبيت الإعلانات وترقية العضوية الذهبية VIP للباحثين وأصحاب العمل</p>
+</div>
+<!-- Official Account Card -->
+<div class="bg-white rounded-2xl border-2 border-emerald-500/50 p-4 shadow-md text-center space-y-3" id="official-accounts-box">
+<div class="text-xs text-slate-700 font-bold mb-1">اختر وسيلة الدفع المعتمدة للمنصة:</div>
+<div class="grid grid-cols-2 gap-2" id="payment-method-selector">
+<button class="py-2 px-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm" id="btn-method-jaib" onclick="selectPaymentMethod('jaib')" type="button">
+<i class="fa-solid fa-wallet text-emerald-600"></i> محفظة جيب
+              </button>
+<button class="py-2 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:bg-slate-100" id="btn-method-kuraimi" onclick="selectPaymentMethod('kuraimi')" type="button">
+<i class="fa-solid fa-building-columns text-blue-800"></i> بنك الكريمي
+              </button>
+</div>
+<div class="space-y-2" id="jaib-account-card">
+<div class="text-[11px] text-slate-500 font-medium">رقم محفظة جيب (Jaib Wallet) المعتمد:</div>
+<div class="bg-slate-50 py-3 px-4 rounded-xl border border-slate-200 flex items-center justify-between">
+<span class="text-2xl font-black text-slate-900 tracking-widest font-mono pr-2" id="jaib-account-number">770088836</span>
+<button class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold flex items-center gap-1 transition-all active:scale-95" onclick="playTone('ding'); copyJaibAccount()">
+<i class="fa-regular fa-copy"></i> نسخ
+                </button>
+</div>
+<p class="text-[11px] text-slate-500">اسم الحساب: <strong class="text-slate-800">منصة وظائف إب - عهد المالية</strong></p>
+</div>
+<div class="hidden space-y-2" id="kuraimi-account-card">
+<div class="text-[11px] text-slate-500 font-medium">رقم حساب بنك الكريمي (حساب جاري / الكريمي جوالي):</div>
+<div class="bg-blue-50/70 py-3 px-4 rounded-xl border border-blue-200 flex items-center justify-between">
+<span class="text-2xl font-black text-blue-900 tracking-widest font-mono pr-2" id="kuraimi-account-number">3058821941</span>
+<button class="bg-blue-800 hover:bg-blue-900 text-white text-xs px-3 py-1.5 rounded-lg font-bold flex items-center gap-1 transition-all active:scale-95" onclick="copyKuraimiAccount()">
+<i class="fa-regular fa-copy"></i> نسخ
+                </button>
+</div>
+<p class="text-[11px] text-slate-500">اسم المستفيد: <strong class="text-slate-800">منصة وظائف إب الرسمية</strong></p>
+</div>
+</div>
+<!-- Packages -->
+<div class="space-y-2.5">
+<h4 class="font-bold text-slate-900 text-xs">اختر باقة التثبيت أو الترقية:</h4>
+<div class="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between cursor-pointer hover:border-blue-700" onclick="selectPackage('أسبوع', '15,000')">
+<div>
+<div class="font-bold text-xs text-slate-900">باقة أسبوع مميز (7 أيام)</div>
+<div class="text-[10px] text-slate-500">تثبيت وتصدر في نتائج البحث</div>
+</div>
+<div class="text-right">
+<div class="font-extrabold text-emerald-600 text-sm">15,000 ر.ي</div>
+<span class="text-[9px] text-blue-700">شامل الضريبة</span>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-white border-2 border-blue-600 shadow-sm flex items-center justify-between cursor-pointer" onclick="selectPackage('أسبوعين', '25,000')">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-xs text-slate-900">باقة أسبوعين (الأكثر طلباً)</span>
+<span class="bg-blue-100 text-blue-800 text-[9px] font-bold px-1.5 py-0.2 rounded">شائع</span>
+</div>
+<div class="text-[10px] text-slate-500">ظهور مضاعف وإرسال إشعار للمستخدمين</div>
+</div>
+<div class="text-right">
+<div class="font-extrabold text-emerald-600 text-sm">25,000 ر.ي</div>
+<span class="text-[9px] text-blue-700">توفير 5,000</span>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between cursor-pointer hover:border-blue-700" onclick="selectPackage('شهر كامل', '40,000')">
+<div>
+<div class="font-bold text-xs text-slate-900">باقة شهر كامل (VIP الذهبية)</div>
+<div class="text-[10px] text-slate-500">تثبيت دائم، بنر هيرو، ودعم مباشر</div>
+</div>
+<div class="text-right">
+<div class="font-extrabold text-emerald-600 text-sm">40,000 ر.ي</div>
+<span class="text-[9px] text-blue-700">توفير 20,000</span>
+</div>
+</div>
+</div>
+<!-- Submit Transfer Proof -->
+<div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+<h4 class="font-bold text-xs text-slate-900">تأكيد الحوالة والتفعيل الفوري:</h4>
+<div>
+<label class="block text-[11px] text-slate-600 mb-1" id="transfer-code-label">رقم العملية أو رقم الإشعار بمحفظة جيب *</label>
+<input class="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-700 font-mono" id="transfer-code-input" placeholder="مثال: JB-9843217" type="text">
+</div>
+<button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs shadow-md flex items-center justify-center gap-1.5" onclick="confirmPaymentTransfer()">
+<i class="fa-solid fa-check"></i> تأكيد الحوالة وتفعيل الباقة فورياً
+            </button>
+</div>
+</section>
+<!-- SCREEN 7: الملف الشخصي والسيرة الذاتية (USER PROFILE & CV) -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-profile">
+<!-- Profile Header -->
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm text-center relative overflow-hidden"><div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-900 to-slate-900 text-white flex items-center justify-center text-3xl mx-auto shadow-md mb-2 overflow-hidden border-2 border-emerald-400 relative"><img alt="وظائف إب" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UlYJbhpfZRAo8JESo4a2svS9E9-5TmQON2fHso8E3ehgOy3L5uuHdLQcgsWSLmwBXBt23CTnSzvHOoMPQ_OigFyoTbMxaKIEZqU1zT7Vl6dsJpFm-rZH2e_xZ23U2I5DkwlilyXPzFOM-A4gFzBy7RX9G_I_aumCADLaHAuPCjU1DRcNS7ZnM7FVjYwtHZB8zy_ILJGCF3h8G7hPN56h_zfAKq26eH-6OGFyaZvibLJdm3Fazcr5QExk81"></div><div class="flex items-center justify-center gap-1.5"><h3 class="font-bold text-base text-slate-900">د. أحمد عبده الرعوي</h3><span class="hidden text-amber-500 text-sm" id="profile-vip-crown"><i class="fa-solid fa-crown"></i></span></div><p class="text-xs text-blue-700 font-medium">طبيب عام وجراحة - حاصل على ترخيص مزاولة المهنة</p><div class="mt-2 flex flex-wrap items-center justify-center gap-1.5"><div class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> حساب موثق في محافظة إب</div><div class="hidden items-center gap-1 bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm" id="profile-vip-badge"><i class="fa-solid fa-crown text-amber-500"></i> حساب VIP موثق ⭐</div></div></div>
+<!-- Action Grid -->
+<div class="grid grid-cols-2 gap-2 text-xs">
+<button class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col items-center gap-1 text-slate-800 hover:bg-slate-50" onclick="switchScreen('jaib_pay')">
+<i class="fa-solid fa-crown text-amber-500 text-lg"></i>
+<span class="font-bold">ترقية VIP الذهبية</span>
+</button>
+<button class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col items-center gap-1 text-slate-800 hover:bg-slate-50" onclick="switchScreen('employer_dash')">
+<i class="fa-solid fa-building-user text-blue-700 text-lg"></i>
+<span class="font-bold">لوحة أصحاب العمل</span>
+</button>
+<button class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col items-center gap-1 text-slate-800 hover:bg-slate-50" onclick="switchScreen('my_applications')">
+<i class="fa-solid fa-list-check text-emerald-600 text-lg"></i>
+<span class="font-bold">تتبع طلباتي</span>
+</button>
+<button class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col items-center gap-1 text-slate-800 hover:bg-slate-50" onclick="switchScreen('super_admin')">
+<i class="fa-solid fa-sliders text-purple-700 text-lg"></i>
+<span class="font-bold">لوحة تحكم الإدارة</span>
+</button>
+</div>
+<!-- Settings List -->
+<div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100 text-xs"><div class="p-3 flex items-center justify-between cursor-pointer hover:bg-amber-50/60 transition-colors bg-amber-50/30" onclick="toggleVipStatus()"><span class="flex items-center gap-2 font-bold text-amber-800"><i class="fa-solid fa-crown text-amber-500 text-sm"></i> محاكاة تفعيل ترقية VIP الذاتية (جيب 770088836)</span><span class="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded" id="toggle-vip-btn-text">تفعيل الآن</span></div>
+<div class="p-3 flex items-center justify-between cursor-pointer hover:bg-slate-50" onclick="showToast('تم حفظ التعديلات')">
+<span class="flex items-center gap-2"><i class="fa-regular fa-file-pdf text-rose-500"></i> تحديث السيرة الذاتية (CV)</span>
+<i class="fa-solid fa-chevron-left text-slate-300"></i>
+</div>
+<div class="p-3 flex items-center justify-between cursor-pointer hover:bg-slate-50" onclick="showToast('جاري الاتصال بـ 770088836')">
+<span class="flex items-center gap-2"><i class="fa-solid fa-headset text-blue-600"></i> الدعم الفني وخدمة العملاء</span>
+<i class="fa-solid fa-chevron-left text-slate-300"></i>
+</div>
+<div class="p-3 flex items-center justify-between cursor-pointer hover:bg-slate-50" onclick="triggerAppSplash()">
+<span class="flex items-center gap-2 text-emerald-600 font-bold"><i class="fa-solid fa-rocket"></i> عرض شاشة الإقلاع الترحيبية</span>
+<i class="fa-solid fa-chevron-left text-slate-300"></i>
+</div>
+<div class="p-3 flex items-center justify-between cursor-pointer hover:bg-slate-50" onclick="showToast('سيتم تسجيل الخروج')">
+<span class="flex items-center gap-2 text-rose-600 font-bold"><i class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل الخروج</span>
+<i class="fa-solid fa-chevron-left text-slate-300"></i>
+</div>
+</div>
+</section>
+<!-- SCREEN 8: الشات الفوري والمحادثة المباشرة (LIVE CHAT & INTERVIEW) -->
+<section class="screen-view hidden px-4 py-4 space-y-3" id="screen-chat">
+<div class="bg-white p-3 rounded-2xl border border-slate-200 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-sm">
+                شفاء
+              </div>
+<div>
+<h4 class="font-bold text-xs text-slate-900">مسؤول توظيف صيدلية الشفاء</h4>
+<p class="text-[10px] text-emerald-600 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> متصل الآن
+                </p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-xs" onclick="triggerCall('770088836')">
+<i class="fa-solid fa-phone"></i>
+</button>
+</div>
+<div class="space-y-2.5 text-xs py-2" id="chat-messages-container">
+<div class="flex justify-start">
+<div class="bg-white border border-slate-200 rounded-2xl rounded-tr-none p-3 max-w-[85%] shadow-sm">
+<p class="text-slate-800 leading-relaxed">أهلاً بك دكتور أحمد، اطلعنا على ملفك الطبي والترخيص، ونود دعوتك لمقابلة عمل غداً الساعة 4 عصراً بمقر الصيدلية في شارع العدين.</p>
+<span class="text-[9px] text-slate-400 block text-left mt-1">10:14 ص</span>
+</div>
+</div>
+<div class="flex justify-end">
+<div class="bg-blue-800 text-white rounded-2xl rounded-tl-none p-3 max-w-[85%] shadow-sm">
+<p class="leading-relaxed">أهلاً بكم، يشرفني ذلك، سأكون متواجداً في الموعد المحدد بإذن الله مع كافة الوثائق الأصلية.</p>
+<span class="text-[9px] text-blue-200 block text-left mt-1">10:16 ص</span>
+</div>
+</div>
+</div>
+<div class="sticky bottom-0 bg-white p-2 rounded-2xl border border-slate-200 shadow-md flex items-center gap-2">
+<button class="text-slate-400 hover:text-blue-700 p-2" onclick="showToast('تم إرفاق السيرة الذاتية')">
+<i class="fa-solid fa-paperclip"></i>
+</button>
+<input class="w-full text-xs outline-none bg-transparent" id="chat-text-input" placeholder="اكتب رسالتك هنا..." type="text">
+<button class="bg-blue-800 hover:bg-blue-900 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-transform active:scale-95" onclick="sendChatMessage()">
+<i class="fa-solid fa-paper-plane"></i>
+</button>
+</div>
+</section>
+<!-- SCREEN 9: تتبع طلباتي (MY APPLICATIONS) -->
+<section class="screen-view hidden px-4 py-4 space-y-3" id="screen-my_applications">
+<h3 class="font-bold text-sm text-slate-900">طلبات التوظيف التي تقدمت لها</h3>
+<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+<div class="flex items-center justify-between">
+<span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded">دعوة لمقابلة عمل</span>
+<span class="text-[10px] text-slate-400">اليوم 10:14 ص</span>
+</div>
+<h4 class="font-bold text-slate-900 text-sm">صيدلي قانوني - صيدلية الشفاء الحديثة</h4>
+<p class="text-xs text-slate-600">موعد المقابلة: غداً 04:00 عصراً - شارع العدين، إب.</p>
+<div class="flex gap-2 pt-2 border-t border-slate-100">
+<button class="flex-1 bg-blue-800 text-white py-1.5 rounded-xl text-xs font-bold" onclick="switchScreen('chat')">
+                فتح المحادثة
+              </button>
+<button class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold" onclick="showToast('تم تأكيد الحضور للمقابلة')">
+                تأكيد الموعد
+              </button>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+<div class="flex items-center justify-between">
+<span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded">قيد التدقيق الإداري</span>
+<span class="text-[10px] text-slate-400">أمس</span>
+</div>
+<h4 class="font-bold text-slate-900 text-sm">مشرف مختبر - مستشفى الكندي التخصصي</h4>
+<p class="text-xs text-slate-500">تم فحص السيرة الذاتية ورخصة المزاولة بنسبة مطابقة 96%.</p>
+</div>
+</section>
+<!-- SCREEN 10: مركز الإشعارات (NOTIFICATIONS CENTER) -->
+<section class="screen-view hidden px-4 py-4 space-y-3" id="screen-notifications">
+<div class="flex items-center justify-between">
+<h3 class="font-bold text-sm text-slate-900">مركز الإشعارات والتنبيهات</h3>
+<button class="text-[11px] text-blue-700 font-medium" onclick="showToast('تم تحديد الكل كمقروء')">تحديد الكل كمقروء</button>
+</div>
+<div class="space-y-2.5">
+<div class="p-3 bg-blue-50/70 border border-blue-100 rounded-2xl flex items-start gap-3 cursor-pointer" onclick="switchScreen('chat')">
+<div class="w-9 h-9 rounded-xl bg-blue-800 text-white flex items-center justify-center text-sm shrink-0">
+<i class="fa-solid fa-envelope-open-text"></i>
+</div>
+<div>
+<h5 class="font-bold text-xs text-slate-900">دعوة لمقابلة عمل جديدة 🔔</h5>
+<p class="text-[11px] text-slate-600 mt-0.5">أرسلت لك صيدلية الشفاء دعوة لمقابلة وظيفة صيدلي قانوني.</p>
+<span class="text-[9px] text-slate-400 mt-1 block">منذ 25 دقيقة</span>
+</div>
+</div>
+<div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl flex items-start gap-3">
+<div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-sm shrink-0">
+<i class="fa-solid fa-wallet"></i>
+</div>
+<div>
+<h5 class="font-bold text-xs text-slate-900">تأكيد حوالة محفظة جيب ✅</h5>
+<p class="text-[11px] text-slate-600 mt-0.5">تم تفعيل باقة التثبيت لحساب 770088836 بنجاح.</p>
+<span class="text-[9px] text-slate-400 mt-1 block">منذ ساعتين</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SCREEN 11: لوحة تحكم صاحب العمل والمنشأة (EMPLOYER DASHBOARD) -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-employer_dash">
+<div class="bg-gradient-to-r from-slate-900 to-blue-900 text-white p-4 rounded-2xl shadow-md">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-bold text-base">لوحة تحكم المنشأة 🏢</h3>
+<p class="text-xs text-slate-200 mt-0.5">مستشفى النصر التخصصي - إب</p>
+</div>
+<button class="bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold" onclick="switchScreen('submit_vacancy')">
+                + أضف شاغر
+              </button>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 text-center">
+<div class="bg-white p-2.5 rounded-xl border border-slate-200">
+<span class="text-lg font-black text-blue-900">3</span>
+<span class="block text-[10px] text-slate-500">شواغر نشطة</span>
+</div>
+<div class="bg-white p-2.5 rounded-xl border border-slate-200">
+<span class="text-lg font-black text-emerald-600">28</span>
+<span class="block text-[10px] text-slate-500">متقدمين جدد</span>
+</div>
+<div class="bg-white p-2.5 rounded-xl border border-slate-200">
+<span class="text-lg font-black text-amber-500">5</span>
+<span class="block text-[10px] text-slate-500">مقابلات محددة</span>
+</div>
+</div>
+<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
+<h4 class="font-bold text-xs text-slate-900">أحدث طلبات التقديم المفرزة ذكياً (AI Match):</h4>
+<div class="p-2.5 bg-slate-50 rounded-xl flex items-center justify-between">
+<div>
+<div class="font-bold text-xs text-slate-900">د. أحمد الرعوي</div>
+<div class="text-[10px] text-slate-500">طبيب عام • ترخيص موثق</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">96% توافق</span>
+<button class="bg-blue-800 text-white px-2.5 py-1 rounded-lg text-xs font-bold" onclick="switchScreen('chat')">دعوة</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SCREEN 12: لوحة تحكم السوبر آدمن (SUPER ADMIN EMBEDDED) -->
+<section class="screen-view hidden px-4 py-4 space-y-4" id="screen-super_admin">
+<div class="bg-slate-900 text-white p-4 rounded-2xl shadow-md border border-slate-800">
+<div class="flex items-center justify-between">
+<div>
+<span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">إدارة عليا فائقة</span>
+<h3 class="font-bold text-base text-white mt-1">لوحة تحكم النظام (Super Admin)</h3>
+</div>
+<i class="fa-solid fa-lock text-amber-400 text-xl"></i>
+</div>
+<p class="text-xs text-slate-300 mt-1">التحكم بالشواغر، مطابقة حوالات محفظة جيب 770088836، وبنك الكريمي 3058821941.</p>
+</div>
+<div class="space-y-3"><div class="bg-white p-4 rounded-2xl border-2 border-emerald-500/40 shadow-sm space-y-2.5"><div class="flex items-center justify-between"><h4 class="font-bold text-xs text-slate-900 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> أدوات المزامنة الحية (Live Sync Actions)</h4><span class="text-[9px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">تزامن فوري</span></div><p class="text-[11px] text-slate-500">بث وتجربة التحديثات المباشرة بين لوحة الإدارة وتطبيق وظائف إب فوراً:</p><div class="grid grid-cols-2 gap-2 pt-1"><button class="bg-blue-900 hover:bg-blue-950 text-white text-[11px] font-bold py-2 px-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-transform active:scale-95 shadow-sm" onclick="adminBroadcastNewJob()" type="button"><i class="fa-solid fa-plus text-emerald-400"></i> إدراج شاغر حي جديد</button><button class="bg-amber-400 hover:bg-amber-500 text-slate-950 text-[11px] font-bold py-2 px-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-transform active:scale-95 shadow-sm" onclick="adminBroadcastVipToggle()" type="button"><i class="fa-solid fa-crown"></i> ترقية المستخدم VIP</button></div></div>
+<div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
+<div class="flex items-center justify-between">
+<h4 class="font-bold text-xs text-slate-900">طلبات توظيف وشواغر تنتظر الاعتماد (1)</h4>
+<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+</div>
+<div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs space-y-1">
+<div class="font-bold text-slate-900">صيدلية الشفاء الحديثة - إب</div>
+<p class="text-[11px] text-slate-600">طلب نشر شاغر: صيدلي قانوني مسائي (350,000 ر.ي)</p>
+<div class="flex gap-2 pt-2">
+<button class="bg-emerald-600 text-white px-3 py-1 rounded-lg text-xs font-bold" onclick="showToast('تم اعتماد الشاغر بنجاح')">
+                    اعتماد ونشر
+                  </button>
+<button class="bg-slate-200 text-slate-700 px-3 py-1 rounded-lg text-xs font-bold" onclick="showToast('تم رفض الشاغر')">
+                    ملاحظات
+                  </button>
+</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
+<h4 class="font-bold text-xs text-slate-900">تدقيق إشعارات محفظة جيب (770088836)</h4>
+<div class="p-2.5 bg-slate-50 rounded-xl flex items-center justify-between text-xs">
+<div>
+<span class="font-bold block">إشعار: JB-774910</span>
+<span class="text-[10px] text-slate-500">مبلغ 25,000 ر.ي (تثبيت أسبوعين)</span>
+</div>
+<button class="bg-emerald-600 text-white px-3 py-1 rounded-lg text-xs font-bold" onclick="showToast('تمت مطابقة الحوالة وتفعيل الباقة')">
+                  تأكيد ومطابقة
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- SCREEN 13: تفاصيل المتقدم والترخيص (CANDIDATE DETAIL) -->
+<section class="screen-view hidden px-4 py-4 space-y-3" id="screen-candidate_detail">
+<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-800 flex items-center justify-center text-2xl font-bold">
+<i class="fa-solid fa-user-doctor"></i>
+</div>
+<div>
+<h3 class="font-bold text-base text-slate-900">د. سارة عبدالملك السقاف</h3>
+<p class="text-xs text-emerald-600 font-semibold">صيدلانية سريرية وتغذية علاجية</p>
+<span class="text-[11px] text-slate-500">إب - الظهار • خبرة 3 سنوات</span>
+</div>
+</div>
+<div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs space-y-1">
+<span class="font-bold text-emerald-900 flex items-center gap-1.5">
+<i class="fa-solid fa-certificate"></i> ترخيص مزاولة المهنة الطبية:
+              </span>
+<p class="text-[11px] text-emerald-800">رقم الترخيص: YEM-IBB-99420 (معتمد وساري المفعول حتى 2026).</p>
+</div>
+<div class="space-y-1.5 text-xs text-slate-700">
+<h4 class="font-bold text-slate-900">المؤهلات العلمية والخبرات:</h4>
+<p class="">• بكالوريوس صيدلة عامة - جامعة إب (مرتبة شرف).</p>
+<p class="">• سنتان عمل في هيئة مستشفى الثورة التعليمي بإب.</p>
+<p class="">• إجادة تامة لأنظمة الصيدليات المحاسبية والمستودعات.</p>
+</div>
+<div class="flex gap-2 pt-3 border-t border-slate-100">
+<button class="flex-1 bg-blue-800 hover:bg-blue-900 text-white py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1" onclick="switchScreen('chat')">
+<i class="fa-regular fa-calendar-check"></i> إرسال دعوة مقابلة عمل
+              </button>
+<button class="bg-emerald-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold" onclick="triggerCall('770088836')">
+<i class="fa-solid fa-phone"></i>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- PERSISTENT BOTTOM NAVIGATION BAR WITH ELEVATED (+) BUTTON -->
+<nav class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex items-center justify-between z-40 shadow-lg select-none">
+<button class="nav-item flex flex-col items-center gap-1 text-slate-400 active-nav transition-colors" id="nav-btn-home" onclick="switchScreen('home')">
+<i class="fa-solid fa-house text-lg"></i>
+<span class="text-[10px] font-semibold">الرئيسية</span>
+</button>
+<button class="nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors" id="nav-btn-requests" onclick="switchScreen('requests')">
+<i class="fa-solid fa-id-card-clip text-lg"></i>
+<span class="text-[10px] font-medium">طلبات التوظيف</span>
+</button>
+<!-- Center Floating (+) Button -->
+<div class="relative -top-5">
+<button class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-900 to-indigo-700 text-white flex items-center justify-center text-xl shadow-lg shadow-blue-900/40 hover:scale-105 active:scale-95 transition-all" onclick="openAddActionSheet()" title="إضافة شاغر أو إعلان">
+<i class="fa-solid fa-plus"></i>
+</button>
+</div>
+<button class="nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors" id="nav-btn-ads" onclick="switchScreen('ads')">
+<i class="fa-solid fa-rectangle-ad text-lg"></i>
+<span class="text-[10px] font-medium">الإعلانات</span>
+</button>
+<button class="nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors" id="nav-btn-profile" onclick="switchScreen('profile')">
+<i class="fa-regular fa-user text-lg"></i>
+<span class="text-[10px] font-medium">حسابي</span>
+</button>
+</nav>
+<!-- ACTION SHEET MODAL FOR (+) BUTTON -->
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden items-end justify-center p-3 transition-opacity" id="add-modal">
+<div class="bg-white w-full rounded-3xl p-5 shadow-2xl space-y-3 max-w-sm mx-auto">
+<div class="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-2"></div>
+<h3 class="text-center font-bold text-slate-900 text-base">إضافة منشور جديد في محافظة إب 🌿</h3>
+<p class="text-center text-xs text-slate-500 mb-3">اختر نوع المنشور لإدراجه وتوثيقه في المنصة:</p>
+<button class="w-full p-3.5 rounded-2xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-between text-right transition-colors" onclick="routeFromModal('submit_vacancy')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-blue-800 text-white flex items-center justify-center text-base">
+<i class="fa-solid fa-hospital-user"></i>
+</div>
+<div>
+<div class="font-bold text-slate-900 text-xs">تقديم شاغر وظيفي للمراجعة والاعتماد</div>
+<div class="text-[10px] text-slate-500">رفع ترخيص المنشأة وتوثيق الشاغر لدى الإدارة</div>
+</div>
+</div>
+<i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
+</button>
+<button class="w-full p-3.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-100 flex items-center justify-between text-right transition-colors" onclick="routeFromModal('requests')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base">
+<i class="fa-solid fa-user-doctor"></i>
+</div>
+<div>
+<div class="font-bold text-slate-900 text-xs">طلب توظيف كادر / باحث عن عمل</div>
+<div class="text-[10px] text-slate-500">نشر السيرة الذاتية لكافة مستشفيات وشركات إب</div>
+</div>
+</div>
+<i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
+</button>
+<button class="w-full p-3.5 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-100 flex items-center justify-between text-right transition-colors" onclick="routeFromModal('jaib_pay')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-base">
+<i class="fa-solid fa-bullhorn"></i>
+</div>
+<div>
+<div class="font-bold text-slate-900 text-xs">إعلان تجاري مع تثبيت محفظة جيب والكريمي</div>
+<div class="text-[10px] text-slate-500">عروض المتاجر والشركات (حساب 770088836)</div>
+</div>
+</div>
+<i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
+</button>
+<button class="w-full py-2.5 text-center text-slate-500 text-xs font-bold hover:text-slate-800" onclick="closeAddModal()">
+          إلغاء
+        </button>
+</div>
+</div>
+<!-- DISTRICTS MODAL -->
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4" id="districts-modal">
+<div class="bg-white w-full max-w-xs rounded-3xl p-5 shadow-2xl space-y-3">
+<h3 class="font-bold text-sm text-slate-900 text-center">اختر المديرية بمحافظة إب</h3>
+<div class="space-y-1.5 max-h-60 overflow-y-auto text-xs">
+<div class="p-2.5 rounded-xl hover:bg-slate-100 cursor-pointer font-bold text-blue-900" onclick="selectDistrict('كل المديريات (22)')">
+            كل مديريات إب (عرض شامل)
+          </div>
+<div class="p-2.5 rounded-xl hover:bg-slate-100 cursor-pointer" onclick="selectDistrict('مديرية الظهار')">مديرية الظهار - مركز المحافظة</div>
+<div class="p-2.5 rounded-xl hover:bg-slate-100 cursor-pointer" onclick="selectDistrict('مديرية المشنة')">مديرية المشنة</div>
+<div class="p-2.5 rounded-xl hover:bg-slate-100 cursor-pointer" onclick="selectDistrict('مديرية جبلة')">مديرية جبلة</div>
+<div class="p-2.5 rounded-xl hover:bg-slate-100 cursor-pointer" onclick="selectDistrict('مديرية يريم')">مديرية يريم</div>
+<div class="p-2.5 rounded-xl hover:bg-slate-100 cursor-pointer" onclick="selectDistrict('مديرية العدين')">مديرية العدين</div>
+<div class="p-2.5 rounded-xl hover:bg-slate-100 cursor-pointer" onclick="selectDistrict('مديرية السدة')">مديرية السدة</div>
+</div>
+<button class="w-full py-2 text-center text-xs text-slate-500 font-bold" onclick="closeDistrictsModal()">إغلاق</button>
+</div>
+</div>
+</div>
+<!-- COMPLETE CLIENT-SIDE LOGIC & STATE ROUTER -->
+<script>
+    // Navigation History Stack
+    let navHistory = ['home'];
+
+    // Clock update
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const timeElem = document.getElementById('live-time');
+      if (timeElem) timeElem.innerText = `${hours}:${minutes}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Universal Toast Notification
+    function showToast(msg) {
+      const toast = document.getElementById('app-toast');
+      const toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 3000);
+    }
+
+    // 1. Splash Screen Launch Automation
+    let splashTimeout;
+    function runSplashScreen() {
+      const splash = document.getElementById('splash-screen');
+      const bar = document.getElementById('splash-progress-bar');
+      if (!splash) return;
+
+      splash.classList.remove('opacity-0', 'pointer-events-none');
+      splash.style.display = 'flex';
+      if (bar) bar.style.width = '0%';
+
+      setTimeout(() => {
+        if (bar) bar.style.width = '100%';
+      }, 100);
+
+      clearTimeout(splashTimeout);
+      splashTimeout = setTimeout(() => {
+        dismissSplash();
+      }, 1600);
+    }
+
+    function dismissSplash() {
+      const splash = document.getElementById('splash-screen');
+      if (!splash) return;
+      splash.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        splash.style.display = 'none';
+      }, 700);
+    }
+
+    function triggerAppSplash() {
+      runSplashScreen();
+    }
+
+    // 2. Skeleton Loader Simulation for Refresh
+    function triggerSkeleton(callback) {
+      const skeleton = document.getElementById('app-skeleton-loader');
+      const realContent = document.getElementById('real-content-wrapper');
+      
+      if (!skeleton || !realContent) {
+        if (callback) callback();
+        return;
+      }
+
+      skeleton.classList.remove('hidden');
+      realContent.classList.add('opacity-0');
+
+      setTimeout(() => {
+        skeleton.classList.add('hidden');
+        realContent.classList.remove('opacity-0');
+        if (callback) callback();
+      }, 1100);
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      runSplashScreen();
+    });
+
+    // Switch between all application screens
+    function switchScreen(screenKey) {
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.add('hidden'));
+      
+      const target = document.getElementById(`screen-${screenKey}`);
+      if (target) {
+        target.classList.remove('hidden');
+        document.getElementById('main-scroll-container').scrollTop = 0;
+      }
+
+      if (navHistory[navHistory.length - 1] !== screenKey) {
+        navHistory.push(screenKey);
+      }
+
+      const backBtn = document.getElementById('header-back-btn');
+      if (screenKey === 'home') {
+        backBtn.classList.add('hidden');
+      } else {
+        backBtn.classList.remove('hidden');
+      }
+
+      const titleMap = {
+        'home': { title: 'وظائف إب', sub: 'سوق العمل والإعلانات - اللواء الأخضر' },
+        'requests': { title: 'طلبات التوظيف', sub: 'دليل الكوادر والباحثين عن عمل' },
+        'submit_vacancy': { title: 'تقديم شاغر للإدارة', sub: 'مراجعة وتوثيق الشاغر الوظيفي' },
+        'job_detail': { title: 'تفاصيل الوظيفة', sub: 'صيدلي قانوني - صيدلية الشفاء' },
+        'ads': { title: 'دليل الإعلانات', sub: 'الأنشطة والخدمات التجارية في إب' },
+        'jaib_pay': { title: 'محفظة جيب & الكريمي', sub: 'تثبيت الإعلانات وترقية العضوية' },
+        'profile': { title: 'الملف الشخصي', sub: 'حسابي والسيرة الذاتية' },
+        'chat': { title: 'محادثة التوظيف', sub: 'صيدلية الشفاء الحديثة - إب' },
+        'my_applications': { title: 'تتبع طلباتي', sub: 'مراحل التقديم والمقابلات' },
+        'notifications': { title: 'التنبيهات', sub: 'مركز الإشعارات والتحديثات' },
+        'employer_dash': { title: 'لوحة المنشأة', sub: 'إدارة الشواغر والمتقدمين' },
+        'super_admin': { title: 'لوحة تحكم السوبر آدمن', sub: 'إدارة التطبيق ومحفظة جيب 770088836' },
+        'candidate_detail': { title: 'ملف المتقدم الطبي', sub: 'د. سارة السقاف - ترخيص موثق' }
+      };
+
+      if (titleMap[screenKey]) {
+        document.getElementById('header-title').innerText = titleMap[screenKey].title;
+        document.getElementById('header-subtitle').innerText = titleMap[screenKey].sub;
+      }
+
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active-nav'));
+      const activeNavBtn = document.getElementById(`nav-btn-${screenKey}`);
+      if (activeNavBtn) activeNavBtn.classList.add('active-nav');
+    }
+
+    // Go Back Function
+    function goBack() {
+      if (navHistory.length > 1) {
+        navHistory.pop();
+        const prev = navHistory[navHistory.length - 1];
+        switchScreen(prev);
+      } else {
+        switchScreen('home');
+      }
+    }
+
+    // Modal Handlers
+    function openAddActionSheet() {
+      const modal = document.getElementById('add-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeAddModal() {
+      const modal = document.getElementById('add-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function routeFromModal(targetScreen) {
+      closeAddModal();
+      switchScreen(targetScreen);
+    }
+
+    function showDistrictsModal() {
+      const modal = document.getElementById('districts-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDistrictsModal() {
+      const modal = document.getElementById('districts-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function selectDistrict(name) {
+      document.getElementById('current-district-label').innerText = name;
+      closeDistrictsModal();
+      showToast(`تم التصفية حسب: ${name}`);
+    }
+
+    // Payment Methods Selection (Jaib & Kuraimi)
+    function selectPaymentMethod(method) {
+      const jCard = document.getElementById('jaib-account-card');
+      const kCard = document.getElementById('kuraimi-account-card');
+      const btnJ = document.getElementById('btn-method-jaib');
+      const btnK = document.getElementById('btn-method-kuraimi');
+      const codeLabel = document.getElementById('transfer-code-label');
+      const codeInput = document.getElementById('transfer-code-input');
+
+      if (method === 'kuraimi') {
+        jCard.classList.add('hidden');
+        kCard.classList.remove('hidden');
+        btnK.classList.remove('border-slate-200', 'bg-slate-50', 'text-slate-700');
+        btnK.classList.add('border-blue-600', 'bg-blue-50', 'text-blue-900', 'shadow-sm');
+        btnJ.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'shadow-sm');
+        btnJ.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-700');
+        if (codeLabel) codeLabel.innerText = 'رقم إشعار الحوالة أو قيد حساب بنك الكريمي *';
+        if (codeInput) codeInput.placeholder = 'مثال: KM-8492015';
+        showToast('تم اختيار السداد عبر بنك الكريمي (3058821941)');
+      } else {
+        kCard.classList.add('hidden');
+        jCard.classList.remove('hidden');
+        btnJ.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'shadow-sm');
+        btnJ.classList.remove('border-slate-200', 'bg-slate-50', 'text-slate-700');
+        btnK.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-700');
+        btnK.classList.remove('border-blue-600', 'bg-blue-50', 'text-blue-900', 'shadow-sm');
+        if (codeLabel) codeLabel.innerText = 'رقم العملية أو رقم الإشعار بمحفظة جيب *';
+        if (codeInput) codeInput.placeholder = 'مثال: JB-9843217';
+        showToast('تم اختيار الدفع عبر محفظة جيب (770088836)');
+      }
+    }
+
+    function copyJaibAccount() {
+      const account = document.getElementById('jaib-account-number').innerText;
+      navigator.clipboard.writeText(account).then(() => {
+        showToast('تم نسخ رقم محفظة جيب 770088836 بنجاح');
+      }).catch(() => {
+        showToast('تم نسخ الحساب: 770088836');
+      });
+    }
+
+    function copyKuraimiAccount() {
+      const account = document.getElementById('kuraimi-account-number').innerText;
+      navigator.clipboard.writeText(account).then(() => {
+        showToast('تم نسخ رقم حساب بنك الكريمي 3058821941 بنجاح');
+      }).catch(() => {
+        showToast('تم نسخ الحساب: 3058821941');
+      });
+    }
+
+    function selectPackage(name, price) {
+      showToast(`تم اختيار باقة ${name} بقيمة ${price} ر.ي`);
+    }
+
+    function confirmPaymentTransfer() {
+      const code = document.getElementById('transfer-code-input').value.trim();
+      if (!code) {
+        showToast('يرجى كتابة رقم العملية أو إشعار الحوالة أولاً');
+        return;
+      }
+      showToast(`تم استلام إشعار الحوالة (${code}) وجاري التفعيل اللحظي!`);
+      document.getElementById('transfer-code-input').value = '';
+    }
+
+    function togglePromoteInfo(checkbox) {
+      const info = document.getElementById('promote-info');
+      if (checkbox.checked) {
+        info.classList.remove('hidden');
+      } else {
+        info.classList.add('hidden');
+      }
+    }
+
+    function handleJobSubmission(e) {
+      e.preventDefault();
+      showToast('تم إرسال الشاغر إلى السوبر آدمن للاعتماد بنجاح! 🚀');
+      setTimeout(() => {
+        switchScreen('home');
+      }, 1500);
+    }
+
+    function handleInstantApply() {
+      showToast('تم تقديم طلبك بنجاح! تم إشعار جهة العمل.');
+      setTimeout(() => {
+        switchScreen('my_applications');
+      }, 1200);
+    }
+
+    function toggleBookmark(btn) {
+      const icon = btn.querySelector('i');
+      if (icon.classList.contains('fa-regular')) {
+        icon.classList.remove('fa-regular');
+        icon.classList.add('fa-solid', 'text-amber-500');
+        showToast('تمت إضافة الشاغر إلى المفضلة');
+      } else {
+        icon.classList.add('fa-regular');
+        icon.classList.remove('fa-solid', 'text-amber-500');
+        showToast('تمت إزالة الشاغر من المفضلة');
+      }
+    }
+
+    function triggerCall(num) {
+      showToast(`جاري الاتصال بالرقم: ${num}`);
+    }
+
+    function triggerWhatsApp(num) {
+      showToast(`جاري فتح محادثة واتساب مع: ${num}`);
+    }
+
+    function scrollToJobs() {
+      const elem = document.getElementById('jobs-section');
+      if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function filterJobs() {
+      const q = document.getElementById('job-search-input').value.toLowerCase();
+      const items = document.querySelectorAll('.job-item');
+      let count = 0;
+      items.forEach(item => {
+        const title = item.getAttribute('data-title').toLowerCase();
+        if (title.includes(q)) {
+          item.style.display = 'block';
+          count++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      document.getElementById('jobs-count-badge').innerText = `${count} شواغر مطابقة`;
+    }
+
+    function filterCategory(cat) {
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('bg-blue-900', 'text-white'));
+      event.target.classList.add('bg-blue-900', 'text-white');
+      
+      const items = document.querySelectorAll('.job-item');
+      let count = 0;
+      items.forEach(item => {
+        const itemCat = item.getAttribute('data-category');
+        if (cat === 'all' || itemCat.includes(cat)) {
+          item.style.display = 'block';
+          count++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      document.getElementById('jobs-count-badge').innerText = `${count} شواغر نشطة`;
+      showToast(cat === 'all' ? 'عرض كافة الوظائف' : `تمت التصفية: ${cat}`);
+    }
+
+    function refreshData() {
+      const icon = document.getElementById('refresh-icon');
+      icon.classList.add('fa-spin');
+      showToast('جاري تحديث الشواغر وسوق العمل...');
+
+      triggerSkeleton(() => {
+        icon.classList.remove('fa-spin');
+        showToast('تم تحديث البيانات بنجاح ✅');
+      });
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-text-input');
+      const val = input.value.trim();
+      if (!val) return;
+      
+      const container = document.getElementById('chat-messages-container');
+      const newMsg = document.createElement('div');
+      newMsg.className = 'flex justify-end';
+      newMsg.innerHTML = `
+        <div class="bg-blue-800 text-white rounded-2xl rounded-tl-none p-3 max-w-[85%] shadow-sm">
+          <p class="leading-relaxed">${val}</p>
+          <span class="text-[9px] text-blue-200 block text-left mt-1">الآن</span>
+        </div>
+      `;
+      container.appendChild(newMsg);
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+
+      setTimeout(() => {
+        const reply = document.createElement('div');
+        reply.className = 'flex justify-start';
+        reply.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-2xl rounded-tr-none p-3 max-w-[85%] shadow-sm">
+            <p class="text-slate-800 leading-relaxed">تم استلام رسالتك، شكراً لك دكتور وسنكون على تواصل مستمر معك.</p>
+            <span class="text-[9px] text-slate-400 block text-left mt-1">الآن</span>
+          </div>
+        `;
+        container.appendChild(reply);
+        container.scrollTop = container.scrollHeight;
+      }, 1000);
+    }
+  </script>
+
+
+<script id="app-audio-engine">var audioEnabled = true; var audioCtx = null; function getAudioContext() { if (!audioCtx) { const AudioContext = window.AudioContext || window.webkitAudioContext; if (AudioContext) audioCtx = new AudioContext(); } if (audioCtx && audioCtx.state === 'suspended') { audioCtx.resume(); } return audioCtx; } function playTone(type) { if (!audioEnabled) return; try { const ctx = getAudioContext(); if (!ctx) return; if (type === 'chime') { const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.type = 'sine'; const now = ctx.currentTime; osc.frequency.setValueAtTime(523.25, now); osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.12); osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.28); gain.gain.setValueAtTime(0.18, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55); osc.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now + 0.55); } else if (type === 'ding') { const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.type = 'triangle'; const now = ctx.currentTime; osc.frequency.setValueAtTime(880, now); osc.frequency.exponentialRampToValueAtTime(1320, now + 0.08); gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4); osc.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now + 0.4); } } catch (e) { console.warn(e); } } function toggleAppAudio() { audioEnabled = !audioEnabled; const icon = document.getElementById('sound-icon'); const btn = document.getElementById('sound-toggle-btn'); if (audioEnabled) { if (icon) { icon.className = 'fa-solid fa-volume-high'; } if (btn) { btn.classList.remove('text-slate-400'); btn.classList.add('text-amber-300'); } playTone('ding'); showToast('تم تفعيل المؤثرات الصوتية 🔊'); } else { if (icon) { icon.className = 'fa-solid fa-volume-xmark'; } if (btn) { btn.classList.remove('text-amber-300'); btn.classList.add('text-slate-400'); } showToast('تم كتم المؤثرات الصوتية 🔇'); } } const origShowToast = window.showToast; window.showToast = function(msg) { playTone('ding'); if (origShowToast) origShowToast(msg); };</script></body></html>
