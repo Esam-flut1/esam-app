@@ -1,0 +1,68 @@
+
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Check app files
+        run: |
+          if [ ! -f index.html ]; then
+            echo "ERROR: Upload index.html to the repository root first."
+            exit 1
+          fi
+
+      - name: Prepare web files
+        run: |
+          mkdir -p www
+          rsync -av ./ www/ \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='www/' \
+            --exclude='node_modules/' \
+            --exclude='android/'
+
+      - name: Install Capacitor
+        run: |
+          npm init -y
+          npm install @capacitor/core @capacitor/android @capacitor/cli
+
+      - name: Configure Capacitor
+        run: |
+          npx cap init "Esam App" "com.esam.app" --web-dir www
+          npx cap add android
+          npx cap sync android
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: esam-app-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
